@@ -10,6 +10,8 @@ These projects focus mainly on logic, and fun. They are perfect for logic buildi
 ### 📌 Blackjack 
 A simple game where you play against the dealer.
 
+Live demo : https://rimsha-shoukat.github.io/games/blackJack/
+
 ---
 
 ## ⚡ How to Run Locally
