@@ -1,0 +1,237 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary-color: #0e0e14;
+    --bg-canvas-color: #08080f;
+
+    --score-color: #a0f0c8;
+    --best-score-color: #7f77dd;
+
+    --text-primary-color: #faf9f5;
+    --text-secondary-color: #c8c8e8;
+
+    --border-primary-color: #4d4c4d;
+
+    --snake-easy-color: #3a6b11;
+    --snake-easy-head-color: #97c459;
+    --food-easy-color: #d95a30;
+
+    --food-medium-color: #5349b8;
+    --snake-medium-head-color: #f09f26;
+    --snake-medium-color: #854e0b;
+
+    --snake-hard-color: #a32d2d;
+    --snake-hard-head-color: #f09595;
+    --food-hard-color: #1c9e75;
+}
+
+button {
+    background-color: var(--bg-primary-color);
+    border: 1px solid var(--border-primary-color);
+    border-radius: 5px;
+    color: var(--text-primary-color);
+    padding: 6px 10px;
+}
+
+button:hover {
+    background: rgb(32, 32, 32);
+}
+
+body {
+    font-family: monospace;
+    color: var(--text-primary-color);
+    background-color: var(--bg-primary-color);
+    width: 100vw;
+    height: 100vh;
+    padding: 12px;
+    overflow: hidden;
+}
+
+nav {
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav>h1 {
+    color: var(--text-secondary-color);
+}
+
+nav section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+nav section div {
+    text-align: center;
+    color: rgb(80, 80, 80);
+}
+
+nav section div:first-child h1 {
+    color: var(--score-color);
+}
+
+nav section div:last-child h1 {
+    color: var(--best-score-color);
+}
+
+main {
+    width: 100%;
+    height: 70%;
+    background-color: var(--bg-canvas-color);
+    border: 1px solid rgb(66, 66, 66);
+    border-radius: 5px;
+}
+
+main>div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgb(21, 21, 21);
+    border-radius: 5px;
+}
+
+
+main>div>span {
+    color: var(--best-score-color);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+main>div>button {
+    width: fit-content;
+    margin-top: 6px;
+}
+
+main>section {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: repeat(auto-fill, minmax(30px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+}
+
+.box {
+    border: 0.3px solid rgb(28, 28, 28);
+}
+
+footer {
+    margin-top: 10px;
+    height: 20%;
+}
+
+footer>section:first-child>div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+footer>section:first-child>div>button {
+    flex-grow: 1;
+}
+
+footer>section:first-child>button {
+    width: 100%;
+}
+
+footer>section:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+footer>section:last-child>div:first-child {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 5px;
+}
+
+footer>section:last-child>div:last-child {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+footer>section:last-child>div:last-child>button {
+    padding: 0px 0px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.snake-easy {
+    background-color: var(--snake-easy-color);
+    border-radius: 3px;
+}
+
+.snake-head-easy {
+    background-color: var(--snake-easy-head-color);
+    border-radius: 3px;
+}
+
+.snake-medium {
+    background-color: var(--snake-medium-color);
+    border-radius: 3px;
+}
+
+.snake-head-medium {
+    background-color: var(--snake-medium-head-color);
+    border-radius: 3px;
+}
+
+.snake-hard {
+    background-color: var(--snake-hard-color);
+    border-radius: 3px;
+}
+
+.snake-head-hard {
+    background-color: var(--snake-hard-head-color);
+    border-radius: 3px;
+}
+
+.snake-food-easy {
+    background: var(--food-easy-color);
+    border-radius: 50px;
+}
+
+.snake-food-medium {
+    background: var(--food-medium-color);
+    border-radius: 50px;
+}
+
+.snake-food-hard {
+    background: var(--food-hard-color);
+    border-radius: 50px;
+}
