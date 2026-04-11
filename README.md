@@ -1,6 +1,6 @@
 # 🎨 Games Collection  
 
-This repository contains frontend games built with HTML, CSS, Tailwind CSS, React.js and Next.js.  
+This repository contains frontend games built with HTML, CSS, Tailwind CSS, and JavaScript.  
 These projects focus mainly on logic, and fun. They are perfect for logic building.   
 
 ---
@@ -11,6 +11,11 @@ These projects focus mainly on logic, and fun. They are perfect for logic buildi
 A simple game where you play against the dealer.
 
 Live demo : https://rimsha-shoukat.github.io/games/blackJack/
+
+### 📌 SnakeGame 
+A classic arcade game where you control a snake to eat food and grow longer.
+
+Live demo : https://rimsha-shoukat.github.io/games/snakeGame/
 
 ---
 
