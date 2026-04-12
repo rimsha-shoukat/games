@@ -17,7 +17,7 @@ A classic arcade game where you control a snake to eat food and grow longer.
 
 Live demo : https://rimsha-shoukat.github.io/games/snakeGame/
 
-### 📌 Connect Four
+### 📌 ConnectFour
 A two-player strategy game where you drop colored pieces into a grid and race to connect four in a row — horizontally, vertically, or diagonally.
  
 Live demo : https://rimsha-shoukat.github.io/games/connectFour/
