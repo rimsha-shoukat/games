@@ -1,0 +1,26 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary-color: #0e0e14;
+    --bg-color: #08080f;
+
+    --text-primary-color: #faf9f5;
+    --text-secondary-color: #4d4c4d;
+
+    --ground-color: #062dca;
+
+    --player-one: #a32d2d;
+    --player-two: #ffd966;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-color);
+}
+
