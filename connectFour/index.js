@@ -19,8 +19,8 @@ function renderBoard() {
             cell.className = 'cell';
             if (grid[r][c] === 1) cell.classList.add('p1');
             if (grid[r][c] === 2) cell.classList.add('p2');
-            cell.dataset.r = r;
-            cell.dataset.c = c;
+            // cell.dataset.r = r;
+            // cell.dataset.c = c;
             pg.appendChild(cell);
         }
     }
