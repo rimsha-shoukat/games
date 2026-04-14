@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect Four – Contributor Tutorial</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+    <div class="page">
+
+        <div class="hero">
+            <h1>Connect<span>Four</span></h1>
+            <p>A beginner-friendly guide to building the game from scratch</p>
+            <div class="link-row">
+                <a href="https://rimsha-shoukat.github.io/games/connectFour/" target="_blank">
+                    🎮 Live Demo
+                </a>
+                <a href="https://github.com/rimsha-shoukat/games/tree/main/connectFour" target="_blank">
+                    💻 Source Code (GitHub)
+                </a>
+            </div>
+        </div>
+
+        <section>
+            <h2>🎯 What is this project?</h2>
+            <p>
+                <strong>Connect Four</strong> is a two-player strategy game played on a 7-column × 6-row grid.
+                Players take turns dropping colored discs into columns. The first player to line up
+                <strong>four discs in a row</strong> — horizontally, vertically, or diagonally — wins.
+            </p>
+            <p>
+                This tutorial walks you through building the entire game using plain
+                <strong>HTML, CSS, and JavaScript</strong> — no frameworks, no libraries.
+                The main focus is the <strong>JavaScript logic</strong>. HTML and CSS are kept short and to the point.
+            </p>
+
+            <!-- mini board visual -->
+            <div class="grid-demo">
+                <!-- row 0 (top) -->
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <!-- row 1 -->
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <!-- row 2 -->
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <!-- row 3 -->
+                <div class="grid-cell"></div>
+                <div class="grid-cell p1"></div>
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <!-- row 4 -->
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell p1 win-cell"></div>
+                <div class="grid-cell p1 win-cell"></div>
+                <div class="grid-cell p1 win-cell"></div>
+                <div class="grid-cell p1 win-cell"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+                <!-- row 5 (bottom) -->
+                <div class="grid-cell p1"></div>
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell p1"></div>
+                <div class="grid-cell p2"></div>
+                <div class="grid-cell"></div>
+                <div class="grid-cell"></div>
+            </div>
+            <p style="font-size:0.85rem;color:#555;">↑ Example board — the white-outlined cells show a winning
+                horizontal four.</p>
+        </section>
+
+        <section>
+            <h2>📄 HTML — The Skeleton</h2>
+            <p>
+                The HTML is minimal. Its job is to provide the containers that JavaScript will fill in.
+                Here are the key parts:
+            </p>
+
+            <table>
+                <tr>
+                    <th>Element / Class</th>
+                    <th>Purpose</th>
+                </tr>
+                <tr>
+                    <td><code>.container</code></td>
+                    <td>Centers everything on the page</td>
+                </tr>
+                <tr>
+                    <td><code>.scoreboard</code></td>
+                    <td>Shows Player 1 score, VS, Player 2 score</td>
+                </tr>
+                <tr>
+                    <td><code>#statusText</code></td>
+                    <td>Displays whose turn it is (or win/draw message)</td>
+                </tr>
+                <tr>
+                    <td><code>.drop-arrows</code></td>
+                    <td>Seven ▾ buttons — one above each column</td>
+                </tr>
+                <tr>
+                    <td><code>#playground</code></td>
+                    <td>The 7×6 grid of circles — built by JS</td>
+                </tr>
+                <tr>
+                    <td><code>.controls</code></td>
+                    <td>"New Game" and "Reset Score" buttons</td>
+                </tr>
+            </table>
+
+            <div class="callout">
+                💡 Notice that <code>#playground</code> starts <strong>empty</strong>. JavaScript creates every circle
+                (cell) dynamically using <code>document.createElement</code> each time the board renders.
+            </div>
+
+            <pre><code>&lt;!-- drop arrows (one per column) --&gt;
+&lt;div class="drop-arrows" id="dropArrows"&gt;
+  &lt;button onclick="drop(0)"&gt;▾&lt;/button&gt;
+  &lt;button onclick="drop(1)"&gt;▾&lt;/button&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- board grid (JS fills this) --&gt;
+&lt;section class="playground" id="playground"&gt;&lt;/section&gt;</code></pre>
+        </section>
+
+
+        <section>
+            <h2>🎨 CSS — Just Enough to Know</h2>
+            <p>
+                The CSS uses <strong>custom properties</strong> (variables) so colors and sizes can be changed
+                in one place. You don't need to memorize this — just know where to look.
+            </p>
+
+            <pre><code>:root {
+  --ground-color: #062dca;   /* board blue */
+  --player-one:   #c0392b;   /* red  */
+  --player-two:   #f0c030;   /* yellow */
+  --cell-size:    62px;
+  --cell-gap:     8px;
+}</code></pre>
+
+            <p>Three CSS classes control the circles' color:</p>
+            <table>
+                <tr>
+                    <th>Class</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td><code>.cell</code></td>
+                    <td>Empty circle (dark background)</td>
+                </tr>
+                <tr>
+                    <td><code>.cell.p1</code></td>
+                    <td>Player 1 disc — red</td>
+                </tr>
+                <tr>
+                    <td><code>.cell.p2</code></td>
+                    <td>Player 2 disc — yellow</td>
+                </tr>
+                <tr>
+                    <td><code>.cell.win</code></td>
+                    <td>Winning four cells — white outline + pulse animation</td>
+                </tr>
+            </table>
+
+            <div class="callout tip">
+                ✅ The grid uses <code>display: grid</code> with <code>repeat(7, var(--cell-size))</code> for columns and
+                <code>repeat(6, ...)</code> for rows — that's how the 7×6 layout is made automatically.
+            </div>
+        </section>
+
+        <section>
+            <h2>⚙️ JavaScript — Variables First</h2>
+            <p>Before writing any function, set up these variables at the top of your <code>index.js</code>:</p>
+
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Type</th>
+                    <th>Initial Value</th>
+                    <th>What it stores</th>
+                </tr>
+                <tr>
+                    <td><code>ROWS</code></td>
+                    <td>number</td>
+                    <td>6</td>
+                    <td>Number of rows in the grid</td>
+                </tr>
+                <tr>
+                    <td><code>COLS</code></td>
+                    <td>number</td>
+                    <td>7</td>
+                    <td>Number of columns</td>
+                </tr>
+                <tr>
+                    <td><code>grid</code></td>
+                    <td>2D array</td>
+                    <td>all zeros</td>
+                    <td>Game state — 0 = empty, 1 = P1, 2 = P2</td>
+                </tr>
+                <tr>
+                    <td><code>currentPlayer</code></td>
+                    <td>number</td>
+                    <td>1</td>
+                    <td>Whose turn it is (1 or 2)</td>
+                </tr>
+                <tr>
+                    <td><code>gameOver</code></td>
+                    <td>boolean</td>
+                    <td>false</td>
+                    <td>Whether the game has ended</td>
+                </tr>
+                <tr>
+                    <td><code>scores</code></td>
+                    <td>array</td>
+                    <td>[0, 0]</td>
+                    <td>Score for P1 and P2</td>
+                </tr>
+                <tr>
+                    <td><code>round</code></td>
+                    <td>number</td>
+                    <td>1</td>
+                    <td>Current round number</td>
+                </tr>
+            </table>
+
+            <pre><code>const ROWS = 6;
+const COLS = 7;
+let grid = [];
+let currentPlayer = 1;
+let gameOver = false;
+let scores = [0, 0];
+let round = 1;</code></pre>
+        </section>
+
+        <section>
+            <h2>🔄 How the Functions Connect</h2>
+            <p>
+                Before diving into each function, here is the <strong>big picture</strong>.
+                The game has two main entry points — page load and a column click.
+            </p>
+
+            <h3>On page load</h3>
+            <div class="flow">
+                <div class="flow-box trigger">Page loads</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">initGrid()</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">renderBoard()</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">updateStatus()</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">setArrows(true)</div>
+            </div>
+
+            <h3>On column click ▾</h3>
+            <div class="flow">
+                <div class="flow-box trigger">drop(col)</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">Find lowest empty row</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">Update grid[][]</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">renderBoard()</div>
+            </div>
+            <div class="flow" style="margin-top:0.4rem;">
+                <div class="flow-box">checkWin(row, col)</div>
+                <div class="arrow">→</div>
+                <div class="flow-box win">Win → highlightWin() + update score</div>
+            </div>
+            <div class="flow" style="margin-top:0.4rem;">
+                <div class="flow-box">checkWin returns null</div>
+                <div class="arrow">→</div>
+                <div class="flow-box draw">Grid full? → Draw</div>
+                <div class="arrow">→</div>
+                <div class="flow-box">Else → switch player</div>
+            </div>
+
+            <div class="callout">
+                📌 <strong>Key rule:</strong> <code>initGrid()</code> is the <em>reset function</em>. Calling it again
+                resets everything — that is exactly what <code>resetGame()</code> does.
+            </div>
+        </section>
+
+        <section>
+            <h2>🧩 Functions — Step by Step</h2>
+
+            <!-- initGrid -->
+            <h3>1 · <code>initGrid()</code> — Reset & Initialize</h3>
+            <p>
+                This is the <strong>master reset</strong>. Call it on page load and whenever a new game starts.
+                It rebuilds the 2D <code>grid</code> array filled with zeros, resets <code>gameOver</code>,
+                then calls the three helper functions to get the UI ready.
+            </p>
+            <ul class="step-list">
+                <li>
+                    <div class="badge">1</div><span>Create a 2D array (<code>ROWS × COLS</code>) filled with
+                        <code>0</code>.</span>
+                </li>
+                <li>
+                    <div class="badge">2</div><span>Set <code>gameOver = false</code>.</span>
+                </li>
+                <li>
+                    <div class="badge">3</div><span>Call <code>renderBoard()</code> to draw empty circles.</span>
+                </li>
+                <li>
+                    <div class="badge">4</div><span>Call <code>updateStatus()</code> with no argument → shows "Player
+                        1's Turn".</span>
+                </li>
+                <li>
+                    <div class="badge">5</div><span>Call <code>setArrows(true)</code> to enable the drop buttons.</span>
+                </li>
+            </ul>
+            <pre><code>function initGrid() {
+  grid = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+  gameOver = false;
+  renderBoard();
+  updateStatus();
+  setArrows(true);
+}</code></pre>
+
+            <!-- renderBoard -->
+            <h3>2 · <code>renderBoard()</code> — Draw the Grid</h3>
+            <p>
+                Clears the <code>#playground</code> div and rebuilds every circle from the current
+                <code>grid[][]</code> state. This is called after <em>every move</em>.
+            </p>
+            <ul class="step-list">
+                <li>
+                    <div class="badge">1</div><span>Select <code>#playground</code>, set its <code>innerHTML = ''</code>
+                        to wipe old circles.</span>
+                </li>
+                <li>
+                    <div class="badge">2</div><span>Loop: outer loop = rows (0 → ROWS), inner = cols (0 → COLS).</span>
+                </li>
+                <li>
+                    <div class="badge">3</div><span>For each cell, create a <code>&lt;div&gt;</code>, add class
+                        <code>cell</code>.</span>
+                </li>
+                <li>
+                    <div class="badge">4</div><span>If <code>grid[r][c] === 1</code> → also add class <code>p1</code>
+                        (red).</span>
+                </li>
+                <li>
+                    <div class="badge">5</div><span>If <code>grid[r][c] === 2</code> → also add class <code>p2</code>
+                        (yellow).</span>
+                </li>
+                <li>
+                    <div class="badge">6</div><span>Append the cell to <code>#playground</code>.</span>
+                </li>
+            </ul>
+            <pre><code>function renderBoard() {
+  const pg = document.getElementById('playground');
+  pg.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      if (grid[r][c] === 1) cell.classList.add('p1');
+      if (grid[r][c] === 2) cell.classList.add('p2');
+      pg.appendChild(cell);
+    }
+  }
+}</code></pre>
+
+            <!-- updateStatus -->
+            <h3>3 · <code>updateStatus(message)</code> — Turn / Win / Draw Text</h3>
+            <p>
+                Updates the small dot and text line that tells players what is happening.
+                The optional <code>message</code> parameter is only passed when the game ends.
+            </p>
+            <table>
+                <tr>
+                    <th>Situation</th>
+                    <th>Dot color</th>
+                    <th>Text shown</th>
+                </tr>
+                <tr>
+                    <td>No message, Player 1's turn</td>
+                    <td>Red (default)</td>
+                    <td>"Player 1's Turn"</td>
+                </tr>
+                <tr>
+                    <td>No message, Player 2's turn</td>
+                    <td>Yellow (<code>.p2</code>)</td>
+                    <td>"Player 2's Turn"</td>
+                </tr>
+                <tr>
+                    <td>Message passed (draw)</td>
+                    <td>Grey (<code>.neutral</code>)</td>
+                    <td>The message string</td>
+                </tr>
+            </table>
+            <pre><code>function updateStatus(message) {
+  const dot  = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  dot.className = 'status-dot';            // reset classes
+  if (message) {
+    dot.classList.add('neutral');
+    text.textContent = message;
+  } else if (currentPlayer === 2) {
+    dot.classList.add('p2');
+    text.textContent = "Player 2's Turn";
+  } else {
+    text.textContent = "Player 1's Turn";
+  }
+}</code></pre>
+
+            <!-- setArrows -->
+            <h3>4 · <code>setArrows(enabled)</code> — Enable / Disable Drop Buttons</h3>
+            <p>
+                Prevents players from clicking after the game ends. Pass <code>true</code> to enable,
+                <code>false</code> to disable. It simply toggles the <code>.disabled</code> CSS class
+                on the arrows container (CSS handles the fading and blocking of clicks).
+            </p>
+            <pre><code>function setArrows(enabled) {
+  const arrows = document.getElementById('dropArrows');
+  if (enabled) {
+    arrows.classList.remove('disabled');
+  } else {
+    arrows.classList.add('disabled');
+  }
+}</code></pre>
+
+            <!-- drop -->
+            <h3>5 · <code>drop(col)</code> — The Main Move Function</h3>
+            <p>
+                Called when a player clicks a ▾ button. <code>col</code> is the column index (0–6).
+                This is the heart of the game.
+            </p>
+            <ul class="step-list">
+                <li>
+                    <div class="badge">1</div><span>If <code>gameOver</code> is true → <code>return</code> immediately
+                        (ignore click).</span>
+                </li>
+                <li>
+                    <div class="badge">2</div><span>Scan <strong>from the bottom row upward</strong> to find the lowest
+                        empty cell in that column. Store it in <code>row</code> (start at -1).</span>
+                </li>
+                <li>
+                    <div class="badge">3</div><span>If <code>row</code> is still -1 after the loop → column is full →
+                        <code>return</code>.</span>
+                </li>
+                <li>
+                    <div class="badge">4</div><span>Set <code>grid[row][col] = currentPlayer</code>.</span>
+                </li>
+                <li>
+                    <div class="badge">5</div><span>Call <code>renderBoard()</code> to show the new disc.</span>
+                </li>
+                <li>
+                    <div class="badge">6</div><span>Call <code>checkWin(row, col)</code>. If it returns a winning
+                        sequence → handle win. Otherwise check for draw. Otherwise switch player.</span>
+                </li>
+            </ul>
+            <pre><code>function drop(col) {
+  if (gameOver) return;
+
+  let row = -1;
+  for (let r = ROWS - 1; r >= 0; r--) {
+    if (grid[r][col] === 0) { row = r; break; }
+  }
+  if (row === -1) return;   // column full
+
+  grid[row][col] = currentPlayer;
+  renderBoard();
+
+  const win = checkWin(row, col);
+  if (win) {
+    highlightWin(win);
+    scores[currentPlayer - 1]++;
+    document.getElementById(`score${currentPlayer}`).textContent =
+      scores[currentPlayer - 1];
+    round++;
+    document.getElementById('roundNum').textContent = round;
+    updateStatus(`Player ${currentPlayer} Wins! 🎉`);
+    gameOver = true;
+    setArrows(false);
+  } else if (grid[0].every(cell => cell !== 0)) {
+    updateStatus("It's a Draw!");
+    gameOver = true;
+    setArrows(false);
+  } else {
+    currentPlayer = currentPlayer === 1 ? 2 : 1;
+    updateStatus();
+  }
+}</code></pre>
+
+            <h3>6 · <code>checkWin(row, col)</code> — Detect Four in a Row</h3>
+            <p>
+                Checks whether the disc just placed at <code>(row, col)</code> completes a sequence of four.
+                Returns the <strong>winning cells array</strong> if yes, or <code>null</code> if no.
+            </p>
+            <p>
+                It checks <strong>four directions</strong>. For each direction it looks both ways from the
+                placed cell and counts how many matching discs are in a line.
+            </p>
+            <table>
+                <tr>
+                    <th>Direction</th>
+                    <th><code>[dr, dc]</code></th>
+                    <th>Checks</th>
+                </tr>
+                <tr>
+                    <td>Horizontal →</td>
+                    <td>[0, 1]</td>
+                    <td>left ↔ right</td>
+                </tr>
+                <tr>
+                    <td>Vertical ↓</td>
+                    <td>[1, 0]</td>
+                    <td>up ↕ down</td>
+                </tr>
+                <tr>
+                    <td>Diagonal ↘</td>
+                    <td>[1, 1]</td>
+                    <td>top-left ↔ bottom-right</td>
+                </tr>
+                <tr>
+                    <td>Diagonal ↙</td>
+                    <td>[1, -1]</td>
+                    <td>top-right ↔ bottom-left</td>
+                </tr>
+            </table>
+            <pre><code>function checkWin(row, col) {
+  const directions = [[0,1],[1,0],[1,1],[1,-1]];
+  const p = currentPlayer;
+ 
+  for (const [dr, dc] of directions) {
+    let seq = [[row, col]];
+ 
+    // look in positive direction
+    for (let d = 1; d &lt; 4; d++) {
+      const r = row + dr * d, c = col + dc * d;
+      if (r&gt;=0 &amp;&amp; r&lt;ROWS &amp;&amp; c&gt;=0 &amp;&amp; c&lt;COLS &amp;&amp; grid[r][c]===p)
+        seq.push([r, c]);
+      else break;
+    }
+    // look in negative direction
+    for (let d = 1; d &lt; 4; d++) {
+      const r = row - dr * d, c = col - dc * d;
+      if (r&gt;=0 &amp;&amp; r&lt;ROWS &amp;&amp; c&gt;=0 &amp;&amp; c&lt;COLS &amp;&amp; grid[r][c]===p)
+        seq.push([r, c]);
+      else break;
+    }
+ 
+    if (seq.length &gt;= 4) return seq.slice(0, 4);
+  }
+  return null;
+}</code></pre>
+
+            <!-- highlightWin -->
+            <h3>7 · <code>highlightWin(cells)</code> — Highlight Winning Cells</h3>
+            <p>
+                Receives the array of 4 winning <code>[row, col]</code> pairs. Finds each cell
+                in the DOM (using the formula <code>r * COLS + c</code> for grid index) and adds
+                the <code>win</code> class, triggering the pulse animation.
+            </p>
+            <pre><code>function highlightWin(cells) {
+  const pg = document.getElementById('playground');
+  cells.forEach(([r, c]) => {
+    pg.children[r * COLS + c].classList.add('win');
+  });
+}</code></pre>
+
+            <div class="callout tip">
+                💡 <strong>Why <code>r * COLS + c</code>?</strong> The playground's children are a flat list.
+                Row 0 occupies indices 0–6, row 1 occupies 7–13, etc. Multiplying the row by the number
+                of columns gives the starting index of that row.
+            </div>
+
+            <!-- resetGame / resetScores -->
+            <h3>8 · <code>resetGame()</code> and <code>resetScores()</code></h3>
+            <p>These are simple wrappers that use the functions you already built:</p>
+            <pre><code>function resetGame() {
+  currentPlayer = 1;
+  initGrid();            // resets grid, re-renders, re-enables arrows
+}
+
+function resetScores() {
+  scores = [0, 0];
+  round = 1;
+  document.getElementById('score1').textContent = '0';
+  document.getElementById('score2').textContent = '0';
+  document.getElementById('roundNum').textContent = '1';
+}</code></pre>
+
+            <!-- bootstrap call -->
+            <h3>9 · Kick Everything Off</h3>
+            <p>
+                At the very bottom of your script — <em>outside</em> all functions — call
+                <code>initGrid()</code> once so the board is ready when the page loads.
+            </p>
+            <pre><code>// at the bottom of index.js
+initGrid();</code></pre>
+        </section>
+
+        <section>
+            <h2>✅ Putting It All Together</h2>
+            <p>Here is the complete call order summary to keep in mind:</p>
+            <ul class="step-list">
+                <li>
+                    <div class="badge">→</div><span><strong>Page load</strong> triggers <code>initGrid()</code> →
+                        <code>renderBoard()</code> + <code>updateStatus()</code> + <code>setArrows(true)</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>Column click</strong> triggers <code>drop(col)</code> →
+                        <code>renderBoard()</code> → <code>checkWin()</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>Win found</strong> → <code>highlightWin()</code> + update
+                        scores + <code>setArrows(false)</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>No win, grid full</strong> → draw message +
+                        <code>setArrows(false)</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>No win, grid not full</strong> → switch player +
+                        <code>updateStatus()</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>New Game button</strong> → <code>resetGame()</code> →
+                        <code>initGrid()</code></span>
+                </li>
+                <li>
+                    <div class="badge">→</div><span><strong>Reset Score button</strong> →
+                        <code>resetScores()</code></span>
+                </li>
+            </ul>
+
+            <div class="callout warn">
+                ⚠️ Remember: <code>renderBoard()</code> clears and rebuilds the <em>entire</em> grid from
+                <code>grid[][]</code> every time. The array is the single source of truth — the DOM is just
+                a reflection of it.
+            </div>
+        </section>
+
+        <section>
+            <h2>💡 Quick Tips</h2>
+            <ul style="padding-left:1.4rem; line-height:2;">
+                <li>Use your browser's <strong>DevTools Console</strong> — add <code>console.log(grid)</code> inside
+                    <code>drop()</code> to watch the 2D array update in real time.
+                </li>
+                <li>The CSS <code>disabled</code> class on <code>.drop-arrows</code> uses
+                    <code>pointer-events: none</code> — no extra JS needed to block clicks when the game ends.
+                </li>
+                <li>To change board size, just change <code>ROWS</code> and <code>COLS</code> — the grid CSS already
+                    uses <code>repeat(7, ...)</code> variables, so update those too.</li>
+                <li>The <code>checkWin</code> logic works for <em>any</em> four-in-a-row variant — you can swap it into
+                    other grid games.</li>
+            </ul>
+        </section>
+
+        <footer>
+            Made with ♥ · Connect Four Tutorial ·
+            <a href="https://github.com/rimsha-shoukat/games/tree/main/connectFour"
+                target="_blank">github.com/rimsha-shoukat</a>
+        </footer>
+
+    </div>
+</body>
+
+</html>
