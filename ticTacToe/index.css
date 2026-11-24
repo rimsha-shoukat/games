@@ -1,0 +1,229 @@
+:root {
+  --table-bg: #C7A47D;
+  --board-bg: #1B1B1B;
+  --board-frame: #3D3126;
+  --grid-lines: #ECECE8;
+  --x-mark: #F2F2EE;
+  --o-mark: #E2C16B;
+  --buttons-bg: #EFE0C6;
+  --buttons-border: #36281E;
+  --text: #36281E;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--table-bg);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.board{
+  border: 10px solid var(--board-frame);
+  border-radius: 2rem;
+  background-color: var(--board-bg);
+  width: 30rem;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.mode-friend, .mode-bot {
+  background-color: var(--buttons-bg);
+  border: 0.2rem solid var(--buttons-border);
+  border-radius: 0.5rem;
+  width: 10rem;
+  height: 3rem;
+  color: var(--text);
+  font-weight: bold;
+  font-size: 1.1rem;
+  animation: show-buttons 1s ease-out;
+}
+
+@keyframes show-buttons{
+  0%{
+    transform: translateY(-200px) scale(0.5);
+    opacity: 0.5;
+  }
+  60%{
+    transform: translateY(20px) scale(1);
+    opacity: 1;
+  }
+  70%{
+    transform: translateY(20px) scale(1);
+    opacity: 1;
+  }
+}
+
+.mode-friend:hover, .mode-bot:hover{
+  box-shadow: 0px 4px 15px 2px var(--buttons-bg);
+  transform: translateY(-5px) scale(1.05);
+  transition: box-shadow 0.3s ease, transform 0.5s ease;
+}
+
+.board-ground{
+  display: none;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  padding: 10px;
+}
+
+.cube {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  line-height: 1;
+  overflow: hidden;
+  cursor: pointer;
+  transition: scale 0.3s ease;
+}
+
+.cube1 {
+  border-left: 6px solid var(--grid-lines);
+  border-right: 6px solid var(--grid-lines);
+}
+
+.cube7 {
+  border-left: 6px solid var(--grid-lines);
+  border-right: 6px solid var(--grid-lines);
+}
+
+.cube3 {
+  border-top: 6px solid var(--grid-lines);
+  border-bottom: 6px solid var(--grid-lines);
+}
+.cube5 {
+  border-top: 6px solid var(--grid-lines);
+  border-bottom: 6px solid var(--grid-lines);
+}
+
+.cube4 {
+  border: 6px solid var(--grid-lines);
+}
+
+.score-buttons{
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.showGrids{
+  display: grid;
+  animation: showLines 1s ease;
+}
+
+@keyframes showLines {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  70%{
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.player {
+  width: 13rem;
+  height: auto;
+  background-color: var(--buttons-bg);
+  border: 4px solid var(--buttons-border);
+  border-bottom: 0;
+  color: var(--text);
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding: 5px 0px;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.player:hover{
+  border-color: var(--board-frame);
+  box-shadow: 0px 0px 6px 3px var(--buttons-bg);
+}
+
+.score-buttons{
+  display: none;
+}
+
+.replay {
+  display: none;
+  width: 25rem;
+  height: auto;
+  background-color: var(--buttons-bg);
+  padding: 5px 0px;
+  border: 4px solid var(--buttons-border);
+  border-top: 0;
+  color: var(--text);
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.replay:hover{
+  border-color: var(--board-frame);
+  box-shadow: 0px 0px 6px 3px var(--buttons-bg);
+}
+
+.showScores{
+  display: flex;
+  animation: showScore 1.5s ease;
+}
+
+@keyframes showScore{
+  0%{
+    transform: translateY(30px);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+    z-index: -1;
+  }
+}
+
+.showReplay{
+  display: block;
+  animation: replayBtn 1s ease;
+}
+
+@keyframes replayBtn{
+  0%{
+    transform: translateY(-30px);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  100%{
+    transform: translateY(0);
+    opacity: 1;
+    z-index: -1;
+  }
+}
