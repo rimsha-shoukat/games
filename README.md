@@ -26,6 +26,7 @@ Live demo : https://rimsha-shoukat.github.io/games/connectFour/
 A classic two-player grid game where players take turns marking spaces with X or O to get three in a row horizontally, vertically, or diagonally.
  
 Live demo : https://rimsha-shoukat.github.io/games/ticTacToe/
+
 ---
 
 ## ⚡ How to Run Locally
