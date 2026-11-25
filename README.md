@@ -21,7 +21,11 @@ Live demo : https://rimsha-shoukat.github.io/games/snakeGame/
 A two-player strategy game where you drop colored pieces into a grid and race to connect four in a row — horizontally, vertically, or diagonally.
  
 Live demo : https://rimsha-shoukat.github.io/games/connectFour/
+
+### 📌 TicTacToe
+A classic two-player grid game where players take turns marking spaces with X or O to get three in a row horizontally, vertically, or diagonally.
  
+Live demo : https://rimsha-shoukat.github.io/games/ticTacToe/
 ---
 
 ## ⚡ How to Run Locally
